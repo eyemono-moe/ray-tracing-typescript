@@ -1,3 +1,5 @@
+import Color from "./Color"
+
 const main = () => {
   const imageWidth = 256
   const imageHeight = 256
@@ -8,10 +10,8 @@ const main = () => {
   for (let j = 0; j < imageHeight; j++) {
     for (let i = 0; i < imageWidth; i++) {
       const index = ((imageHeight - j) * imageWidth + i) * colorDepth
-      buffer[index] = (i * 255) / (imageWidth - 1)
-      buffer[index + 1] = (j * 255) / (imageHeight - 1)
-      buffer[index + 2] = 64
-      buffer[index + 3] = 255
+      const pixelColor = new Color(i / imageWidth, j / imageHeight, 0.25)
+      Color.writeColor(pixelColor, index, buffer)
     }
   }
 
