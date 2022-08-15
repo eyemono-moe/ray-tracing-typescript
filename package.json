@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build --base=/ray-tracing-typescript/",
     "preview": "vite preview",
     "eslint": "eslint src/**/*.ts",
     "eslint:fix": "eslint --fix src/**/*.ts",
