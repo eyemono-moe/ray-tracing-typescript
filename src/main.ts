@@ -2,7 +2,19 @@ import Color from "./Color"
 import Ray from "./Ray"
 import Vector from "./Vector"
 
+const hitSphere = (center: Vector, radius: number, ray: Ray): boolean => {
+  const oc = Vector.sub(ray.origin, center)
+  const a = Vector.dot(ray.direction, ray.direction)
+  const b = 2 * Vector.dot(oc, ray.direction)
+  const c = Vector.dot(oc, oc) - radius * radius
+  const discriminant = b * b - 4 * a * c
+  return discriminant > 0
+}
+
 const rayColor = (ray: Ray): Color => {
+  if (hitSphere(new Vector(0, 0, -1), 0.5, ray)) {
+    return new Color(1, 0, 0)
+  }
   const unitDirection = Vector.normalize(ray.direction)
   const t = 0.5 * (unitDirection.e[1] + 1)
   return Color.add(Color.scale(new Color(1, 1, 1), 1 - t), Color.scale(new Color(0.5, 0.7, 1), t))
