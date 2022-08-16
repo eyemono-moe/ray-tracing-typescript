@@ -6,10 +6,17 @@ import Ray from "./Ray"
 import Sphere from "./Sphere"
 import Vector from "./Vector"
 
-const rayColor = (ray: Ray, world: IHittable): Color => {
-  const hitRecord = world.hit(ray, 0, Infinity)
+const rayColor = (ray: Ray, world: IHittable, depth: number): Color => {
+  // If we've exceeded the ray bounce limit, no more light is gathered.
+  if (depth <= 0) {
+    return new Color(0, 0, 0)
+  }
+
+  const hitRecord = world.hit(ray, 0.001, Infinity)
   if (hitRecord) {
-    return Color.scale(Color.add(hitRecord.normal, new Color(1, 1, 1)), 0.5)
+    const hitPoint = hitRecord.point
+    const target = Vector.add(Vector.add(hitPoint, hitRecord.normal), Vector.randomUnitVector())
+    return Color.scale(rayColor(new Ray(hitPoint, Vector.sub(target, hitPoint)), world, depth - 1), 0.5)
   }
   const unitDirection = Vector.normalize(ray.direction)
   const t = 0.5 * (unitDirection.e[1] + 1)
@@ -24,6 +31,7 @@ const main = () => {
   const colorDepth = 4
   const buffer = new Uint8Array(imageWidth * imageHeight * colorDepth)
   const samplePerPixel = 100
+  const maxDepth = 50
 
   // World
   const world = new HittableList()
@@ -41,7 +49,7 @@ const main = () => {
         const u = (i + Math.random()) / (imageWidth - 1)
         const v = (j + Math.random()) / (imageHeight - 1)
         const ray = camera.getRay(u, v)
-        pixelColor = Color.add(pixelColor, rayColor(ray, world))
+        pixelColor = Color.add(pixelColor, rayColor(ray, world, maxDepth))
       }
       const index = ((imageHeight - j) * imageWidth + i) * colorDepth
       Color.writeColor(pixelColor, index, buffer, samplePerPixel)

@@ -51,6 +51,14 @@ describe("Vector", () => {
     expect(v2.e[2]).toBe(3)
   })
 
+  test("pow", () => {
+    const v1 = new Vector(2, 4, 6)
+    const v2 = Vector.pow(v1, 2)
+    expect(v2.e[0]).toBe(4)
+    expect(v2.e[1]).toBe(16)
+    expect(v2.e[2]).toBe(36)
+  })
+
   test("mag", () => {
     const v1 = new Vector(1, 2, 3)
     expect(Vector.mag(v1)).toBeCloseTo(Math.sqrt(14))
@@ -90,5 +98,10 @@ describe("Vector", () => {
     expect(v2.e[0]).toBe(0)
     expect(v2.e[1]).toBe(0)
     expect(v2.e[2]).toBe(0)
+  })
+
+  test("randomUnitVector", () => {
+    const v1 = Vector.randomUnitVector()
+    expect(Vector.mag(v1)).toBeCloseTo(1)
   })
 })

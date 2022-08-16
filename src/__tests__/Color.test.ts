@@ -22,7 +22,7 @@ describe("Color", () => {
     Color.writeColor(c, 0, buf, 1)
     expect(buf[0]).toBe(255)
     expect(buf[1]).toBe(0)
-    expect(buf[2]).toBe(127)
+    expect(buf[2]).toBe(Math.round(Math.pow(0.5, 1 / 2.2) * 255))
     expect(buf[3]).toBe(255)
   })
 })

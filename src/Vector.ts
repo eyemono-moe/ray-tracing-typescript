@@ -26,6 +26,10 @@ export default class Vector {
     return new Vector(v.e[0] / s, v.e[1] / s, v.e[2] / s)
   }
 
+  static pow(v: Vector, s: number): Vector {
+    return new Vector(Math.pow(v.e[0], s), Math.pow(v.e[1], s), Math.pow(v.e[2], s))
+  }
+
   /**
    * Returns the length of the vector.
    *
@@ -85,5 +89,17 @@ export default class Vector {
       return new Vector(0, 0, 0)
     }
     return Vector.div(v, mag)
+  }
+
+  /**
+   * Returns the random vector on the unit sphere.
+   *
+   * @returns Random vector on the unit sphere
+   */
+  static randomUnitVector() {
+    const theta = Math.random() * 2 * Math.PI
+    const phi = 1 - 2 * Math.random()
+    const r = Math.sqrt(1 - phi * phi)
+    return new Vector(r * Math.cos(theta), r * Math.sin(theta), phi)
   }
 }
