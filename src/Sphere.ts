@@ -3,6 +3,11 @@ import Ray from "./Ray"
 import Vector from "./Vector"
 
 export default class Sphere implements IHittable {
+  /**
+   *
+   * @param center Center position of the sphere
+   * @param radius Radius of the sphere, if pass
+   */
   constructor(public center: Vector, public radius: number) {}
 
   hit(ray: Ray, tMin: number, tMax: number): HitRecord | null {
@@ -18,7 +23,7 @@ export default class Sphere implements IHittable {
       if (t1 < tMax && t1 > tMin) {
         const point = ray.at(t1)
         const outwardNormal = Vector.div(Vector.sub(point, this.center), this.radius)
-        const frontFace = Vector.dot(ray.direction, outwardNormal) < 0
+        const frontFace = this.radius >= 0
         const hitRecord: HitRecord = {
           point,
           normal: frontFace ? outwardNormal : Vector.scale(outwardNormal, -1),
@@ -31,7 +36,7 @@ export default class Sphere implements IHittable {
       if (t2 < tMax && t2 > tMin) {
         const point = ray.at(t2)
         const outwardNormal = Vector.div(Vector.sub(point, this.center), this.radius)
-        const frontFace = Vector.dot(ray.direction, outwardNormal) < 0
+        const frontFace = this.radius < 0
         const hitRecord: HitRecord = {
           point,
           normal: frontFace ? outwardNormal : Vector.scale(outwardNormal, -1),
