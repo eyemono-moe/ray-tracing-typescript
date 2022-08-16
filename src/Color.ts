@@ -25,9 +25,11 @@ export default class Color extends Vector {
    * @param c
    * @param i index of where to write the color
    * @param buf
+   * @param samplePerPixel
    */
-  static writeColor(c: Color, i: number, buf: Uint8Array) {
-    const legal = Color.scale(Color.legalize(c), 255)
+  static writeColor(c: Color, i: number, buf: Uint8Array, samplePerPixel: number) {
+    const scaled = Color.div(c, samplePerPixel)
+    const legal = Color.scale(Color.legalize(scaled), 255)
     buf[i] = legal.e[0]
     buf[i + 1] = legal.e[1]
     buf[i + 2] = legal.e[2]

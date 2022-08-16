@@ -1,3 +1,4 @@
+import { Camera } from "./Camera"
 import Color from "./Color"
 import { IHittable } from "./Hittable"
 import HittableList from "./HittableList"
@@ -22,6 +23,7 @@ const main = () => {
   const imageHeight = Math.floor(imageWidth / aspectRatio)
   const colorDepth = 4
   const buffer = new Uint8Array(imageWidth * imageHeight * colorDepth)
+  const samplePerPixel = 100
 
   // World
   const world = new HittableList()
@@ -29,33 +31,20 @@ const main = () => {
   world.add(new Sphere(new Vector(0, -100.5, -1), 100))
 
   // Camera
-  const viewportHeight = 2
-  const viewportWidth = aspectRatio * viewportHeight
-  const focalLength = 1
-
-  const origin = new Vector(0, 0, 0)
-  const horizontal = new Vector(viewportWidth, 0, 0)
-  const vertical = new Vector(0, viewportHeight, 0)
-  const lowerLeftCorner = Vector.sub(
-    Vector.sub(Vector.sub(origin, Vector.div(horizontal, 2)), Vector.div(vertical, 2)),
-    new Vector(0, 0, focalLength)
-  )
+  const camera = new Camera(new Vector(0, 0, 0), 2, aspectRatio)
 
   // Render
   for (let j = imageHeight - 1; j >= 0; j--) {
     for (let i = 0; i < imageWidth; i++) {
-      const u = i / (imageWidth - 1)
-      const v = j / (imageHeight - 1)
+      let pixelColor = new Color(0, 0, 0)
+      for (let s = 0; s < samplePerPixel; s++) {
+        const u = (i + Math.random()) / (imageWidth - 1)
+        const v = (j + Math.random()) / (imageHeight - 1)
+        const ray = camera.getRay(u, v)
+        pixelColor = Color.add(pixelColor, rayColor(ray, world))
+      }
       const index = ((imageHeight - j) * imageWidth + i) * colorDepth
-      const ray = new Ray(
-        origin,
-        Vector.sub(
-          Vector.add(Vector.add(lowerLeftCorner, Vector.scale(horizontal, u)), Vector.scale(vertical, v)),
-          origin
-        )
-      )
-      const pixelColor = rayColor(ray, world)
-      Color.writeColor(pixelColor, index, buffer)
+      Color.writeColor(pixelColor, index, buffer, samplePerPixel)
     }
   }
 
