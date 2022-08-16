@@ -18,16 +18,26 @@ export default class Sphere implements IHittable {
       if (t1 < tMax && t1 > tMin) {
         const point = ray.at(t1)
         const outwardNormal = Vector.div(Vector.sub(point, this.center), this.radius)
-        const hitRecord = new HitRecord(point, outwardNormal, t1, Vector.dot(ray.direction, outwardNormal) < 0)
-        hitRecord.setFaceNormal(ray, outwardNormal)
+        const frontFace = Vector.dot(ray.direction, outwardNormal) < 0
+        const hitRecord: HitRecord = {
+          point,
+          normal: frontFace ? outwardNormal : Vector.scale(outwardNormal, -1),
+          t: t1,
+          frontFace
+        }
         return hitRecord
       }
       const t2 = (-halfB + root) / a
       if (t2 < tMax && t2 > tMin) {
         const point = ray.at(t2)
         const outwardNormal = Vector.div(Vector.sub(point, this.center), this.radius)
-        const hitRecord = new HitRecord(point, outwardNormal, t2, Vector.dot(ray.direction, outwardNormal) < 0)
-        hitRecord.setFaceNormal(ray, outwardNormal)
+        const frontFace = Vector.dot(ray.direction, outwardNormal) < 0
+        const hitRecord: HitRecord = {
+          point,
+          normal: frontFace ? outwardNormal : Vector.scale(outwardNormal, -1),
+          t: t2,
+          frontFace
+        }
         return hitRecord
       }
     }
