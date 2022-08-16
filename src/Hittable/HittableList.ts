@@ -1,5 +1,5 @@
 import { HitRecord, IHittable } from "./Hittable"
-import Ray from "./Ray"
+import Ray from "../Ray"
 
 export default class HittableList implements IHittable {
   public objects: IHittable[] = []

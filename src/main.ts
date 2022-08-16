@@ -1,9 +1,9 @@
 import { Camera } from "./Camera"
 import Color from "./Color"
-import { IHittable } from "./Hittable"
-import HittableList from "./HittableList"
+import { IHittable } from "./Hittable/Hittable"
+import HittableList from "./Hittable/HittableList"
 import Ray from "./Ray"
-import Sphere from "./Sphere"
+import Sphere from "./Hittable/Sphere"
 import Vector from "./Vector"
 
 const rayColor = (ray: Ray, world: IHittable, depth: number): Color => {

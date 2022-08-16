@@ -1,5 +1,5 @@
 import Ray from "../Ray"
-import Sphere from "../Sphere"
+import Sphere from "../Hittable/Sphere"
 import Vector from "../Vector"
 
 describe("Sphere", () => {

@@ -1,5 +1,5 @@
-import Ray from "./Ray"
-import Vector from "./Vector"
+import Ray from "../Ray"
+import Vector from "../Vector"
 
 export type HitRecord = {
   point: Vector

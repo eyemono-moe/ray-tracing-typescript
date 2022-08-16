@@ -1,6 +1,6 @@
 import { HitRecord, IHittable } from "./Hittable"
-import Ray from "./Ray"
-import Vector from "./Vector"
+import Ray from "../Ray"
+import Vector from "../Vector"
 
 export default class Sphere implements IHittable {
   /**
