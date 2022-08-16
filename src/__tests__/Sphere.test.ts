@@ -1,10 +1,11 @@
 import Ray from "../Ray"
 import Sphere from "../Hittable/Sphere"
 import Vector from "../Vector"
+import { Material } from "../Material/Material"
 
 describe("Sphere", () => {
   test("constructor", () => {
-    const s = new Sphere(new Vector(0, 0, 0), 1)
+    const s = new Sphere(new Vector(0, 0, 0), 1, new Material())
     expect(s.center.e[0]).toBe(0)
     expect(s.center.e[1]).toBe(0)
     expect(s.center.e[2]).toBe(0)
@@ -12,8 +13,8 @@ describe("Sphere", () => {
   })
 
   describe("hit", () => {
-    const sp = new Sphere(new Vector(0, 0, 10), 1)
-    const sn = new Sphere(new Vector(0, 0, 10), -1)
+    const sp = new Sphere(new Vector(0, 0, 10), 1, new Material())
+    const sn = new Sphere(new Vector(0, 0, 10), -1, new Material())
 
     test("hit from outside", () => {
       const r = new Ray(new Vector(0, 0, 0), new Vector(0, 0, 1))

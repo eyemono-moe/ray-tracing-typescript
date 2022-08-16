@@ -5,6 +5,8 @@ import HittableList from "./Hittable/HittableList"
 import Ray from "./Ray"
 import Sphere from "./Hittable/Sphere"
 import Vector from "./Vector"
+import Lambertian from "./Material/Lambertian"
+import Metal from "./Material/Metal"
 
 const rayColor = (ray: Ray, world: IHittable, depth: number): Color => {
   // If we've exceeded the ray bounce limit, no more light is gathered.
@@ -14,9 +16,11 @@ const rayColor = (ray: Ray, world: IHittable, depth: number): Color => {
 
   const hitRecord = world.hit(ray, 0.001, Infinity)
   if (hitRecord) {
-    const hitPoint = hitRecord.point
-    const target = Vector.add(Vector.add(hitPoint, hitRecord.normal), Vector.randomUnitVector())
-    return Color.scale(rayColor(new Ray(hitPoint, Vector.sub(target, hitPoint)), world, depth - 1), 0.5)
+    const scatter = hitRecord.material.scatter(ray, hitRecord)
+    if (scatter.scattered) {
+      return Color.mul(scatter.attenuation, rayColor(scatter.scatteredRay, world, depth - 1))
+    }
+    return new Color(0, 0, 0)
   }
   const unitDirection = Vector.normalize(ray.direction)
   const t = 0.5 * (unitDirection.e[1] + 1)
@@ -35,8 +39,10 @@ const main = () => {
 
   // World
   const world = new HittableList()
-  world.add(new Sphere(new Vector(0, 0, -1), 0.5))
-  world.add(new Sphere(new Vector(0, -100.5, -1), 100))
+  world.add(new Sphere(new Vector(0, 0, -1), 0.5, new Lambertian(new Color(0.7, 0.3, 0.3))))
+  world.add(new Sphere(new Vector(0, -100.5, -1), 100, new Lambertian(new Color(0.8, 0.8, 0))))
+  world.add(new Sphere(new Vector(1, 0, -1), 0.5, new Metal(new Color(0.8, 0.6, 0.2), 1)))
+  world.add(new Sphere(new Vector(-1, 0, -1), 0.5, new Metal(new Color(0.8, 0.8, 0.8), 0.3)))
 
   // Camera
   const camera = new Camera(new Vector(0, 0, 0), 2, aspectRatio)

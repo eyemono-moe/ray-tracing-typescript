@@ -1,6 +1,7 @@
 import { HitRecord, IHittable } from "./Hittable"
 import Ray from "../Ray"
 import Vector from "../Vector"
+import { IMaterial } from "../Material/Material"
 
 export default class Sphere implements IHittable {
   /**
@@ -8,7 +9,7 @@ export default class Sphere implements IHittable {
    * @param center Center position of the sphere
    * @param radius Radius of the sphere, if pass
    */
-  constructor(public center: Vector, public radius: number) {}
+  constructor(public center: Vector, public radius: number, public material: IMaterial) {}
 
   hit(ray: Ray, tMin: number, tMax: number): HitRecord | null {
     const oc = Vector.sub(ray.origin, this.center)
@@ -27,6 +28,7 @@ export default class Sphere implements IHittable {
         const hitRecord: HitRecord = {
           point,
           normal: frontFace ? outwardNormal : Vector.scale(outwardNormal, -1),
+          material: this.material,
           t: t1,
           frontFace
         }
@@ -40,6 +42,7 @@ export default class Sphere implements IHittable {
         const hitRecord: HitRecord = {
           point,
           normal: frontFace ? outwardNormal : Vector.scale(outwardNormal, -1),
+          material: this.material,
           t: t2,
           frontFace
         }

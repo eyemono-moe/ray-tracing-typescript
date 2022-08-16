@@ -1,9 +1,11 @@
+import { IMaterial } from "../Material/Material"
 import Ray from "../Ray"
 import Vector from "../Vector"
 
 export type HitRecord = {
   point: Vector
   normal: Vector
+  material: IMaterial
   t: number
   frontFace: boolean
 }

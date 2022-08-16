@@ -102,4 +102,15 @@ export default class Vector {
     const r = Math.sqrt(1 - phi * phi)
     return new Vector(r * Math.cos(theta), r * Math.sin(theta), phi)
   }
+
+  /**
+   * Returns the reflected vector across the given normal.
+   *
+   * @param v Vector to reflect
+   * @param n Normal to reflect across
+   * @returns Reflected vector
+   */
+  static reflect(v: Vector, n: Vector): Vector {
+    return Vector.sub(v, Vector.scale(n, 2 * Vector.dot(v, n)))
+  }
 }
