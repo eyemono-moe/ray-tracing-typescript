@@ -4,14 +4,14 @@ import Vector from "./Vector"
 
 const hitSphere = (center: Vector, radius: number, ray: Ray): number => {
   const oc = Vector.sub(ray.origin, center)
-  const a = Vector.dot(ray.direction, ray.direction)
-  const b = 2 * Vector.dot(oc, ray.direction)
-  const c = Vector.dot(oc, oc) - radius * radius
-  const discriminant = b * b - 4 * a * c
+  const a = Vector.lengthSquared(ray.direction)
+  const halfB = Vector.dot(oc, ray.direction)
+  const c = Vector.lengthSquared(oc) - radius * radius
+  const discriminant = halfB * halfB - a * c
   if (discriminant < 0) {
     return -1
   } else {
-    return (-b - Math.sqrt(discriminant)) / (2 * a)
+    return (-halfB - Math.sqrt(discriminant)) / a
   }
 }
 
