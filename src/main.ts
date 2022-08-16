@@ -1,29 +1,17 @@
 import Color from "./Color"
+import { IHittable } from "./Hittable"
+import HittableList from "./HittableList"
 import Ray from "./Ray"
+import Sphere from "./Sphere"
 import Vector from "./Vector"
 
-const hitSphere = (center: Vector, radius: number, ray: Ray): number => {
-  const oc = Vector.sub(ray.origin, center)
-  const a = Vector.lengthSquared(ray.direction)
-  const halfB = Vector.dot(oc, ray.direction)
-  const c = Vector.lengthSquared(oc) - radius * radius
-  const discriminant = halfB * halfB - a * c
-  if (discriminant < 0) {
-    return -1
-  } else {
-    return (-halfB - Math.sqrt(discriminant)) / a
-  }
-}
-
-const rayColor = (ray: Ray): Color => {
-  const center = new Vector(0, 0, -1)
-  let t = hitSphere(center, 0.5, ray)
-  if (t > 0) {
-    const n = Vector.normalize(Vector.sub(ray.at(t), center))
-    return Color.scale(new Color(n.e[0] + 1, n.e[1] + 1, n.e[2] + 1), 0.5)
+const rayColor = (ray: Ray, world: IHittable): Color => {
+  const hitRecord = world.hit(ray, 0, Infinity)
+  if (hitRecord) {
+    return Color.scale(Color.add(hitRecord.normal, new Color(1, 1, 1)), 0.5)
   }
   const unitDirection = Vector.normalize(ray.direction)
-  t = 0.5 * (unitDirection.e[1] + 1)
+  const t = 0.5 * (unitDirection.e[1] + 1)
   return Color.add(Color.scale(new Color(1, 1, 1), 1 - t), Color.scale(new Color(0.5, 0.7, 1), t))
 }
 
@@ -34,6 +22,11 @@ const main = () => {
   const imageHeight = Math.floor(imageWidth / aspectRatio)
   const colorDepth = 4
   const buffer = new Uint8Array(imageWidth * imageHeight * colorDepth)
+
+  // World
+  const world = new HittableList()
+  world.add(new Sphere(new Vector(0, 0, -1), 0.5))
+  world.add(new Sphere(new Vector(0, -100.5, -1), 100))
 
   // Camera
   const viewportHeight = 2
@@ -61,7 +54,7 @@ const main = () => {
           origin
         )
       )
-      const pixelColor = rayColor(ray)
+      const pixelColor = rayColor(ray, world)
       Color.writeColor(pixelColor, index, buffer)
     }
   }
