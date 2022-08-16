@@ -18,7 +18,10 @@ const main = () => {
   const canvas = document.getElementById("canvas") as HTMLCanvasElement
   canvas.width = imageWidth
   canvas.height = imageHeight
-  const ctx = canvas.getContext("2d")!
+  const ctx = canvas.getContext("2d")
+  if (ctx === null) {
+    throw new Error("Failed to get context")
+  }
   const buf8 = new Uint8ClampedArray(buffer)
   const imgData = new ImageData(buf8, imageWidth, imageHeight)
   ctx.putImageData(imgData, 0, 0)
