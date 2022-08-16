@@ -19,7 +19,7 @@ describe("Color", () => {
   test("writeColor", () => {
     const c = new Color(1, 0, 0.5)
     const buf = new Uint8Array(4)
-    Color.writeColor(c, 0, buf)
+    Color.writeColor(c, 0, buf, 1)
     expect(buf[0]).toBe(255)
     expect(buf[1]).toBe(0)
     expect(buf[2]).toBe(127)
