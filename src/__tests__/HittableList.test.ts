@@ -2,35 +2,37 @@ import HittableList from "../Hittable/HittableList"
 import Ray from "../Ray"
 import Sphere from "../Hittable/Sphere"
 import Vector from "../Vector"
+import { Material } from "../Material/Material"
 
 describe("HittableList", () => {
+  const s = new Sphere(new Vector(0, 0, 0), 1, new Material())
   describe("constructor", () => {
     test("initializes with empty array", () => {
       const hl = new HittableList()
       expect(hl.objects).toEqual([])
     })
     test("initializes with array", () => {
-      const hl = new HittableList([new Sphere(new Vector(0, 0, 0), 1)])
-      expect(hl.objects).toEqual([new Sphere(new Vector(0, 0, 0), 1)])
+      const hl = new HittableList([s])
+      expect(hl.objects).toEqual([s])
     })
   })
 
   test("add", () => {
     const hl = new HittableList()
-    hl.add(new Sphere(new Vector(0, 0, 0), 1))
-    expect(hl.objects).toEqual([new Sphere(new Vector(0, 0, 0), 1)])
+    hl.add(s)
+    expect(hl.objects).toEqual([s])
   })
 
   test("clear", () => {
-    const hl = new HittableList([new Sphere(new Vector(0, 0, 0), 1)])
+    const hl = new HittableList([s])
     hl.clear()
     expect(hl.objects).toEqual([])
   })
 
   describe("hit", () => {
     const hl = new HittableList()
-    const s1 = new Sphere(new Vector(0, 0, 20), 1)
-    const s2 = new Sphere(new Vector(0, 0, 10), 1)
+    const s1 = new Sphere(new Vector(0, 0, 20), 1, new Material())
+    const s2 = new Sphere(new Vector(0, 0, 10), 1, new Material())
     hl.add(s1)
     hl.add(s2)
     const r = new Ray(new Vector(0, 0, 0), new Vector(0, 0, 1))

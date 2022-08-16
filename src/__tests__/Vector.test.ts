@@ -104,4 +104,13 @@ describe("Vector", () => {
     const v1 = Vector.randomUnitVector()
     expect(Vector.mag(v1)).toBeCloseTo(1)
   })
+
+  test("reflect", () => {
+    const v1 = new Vector(1, -1, 1)
+    const v2 = new Vector(0, 1, 0)
+    const v3 = Vector.reflect(v1, v2)
+    expect(v3.e[0]).toBe(1)
+    expect(v3.e[1]).toBe(1)
+    expect(v3.e[2]).toBe(1)
+  })
 })
