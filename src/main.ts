@@ -25,5 +25,3 @@ const main = () => {
 }
 
 main()
-
-export {}
