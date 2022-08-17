@@ -4,7 +4,7 @@ import Ray from "../Ray"
 import Vector from "../Vector"
 import IMaterial from "../Material/Material"
 
-export class Sphere implements IHittable {
+export default class Sphere implements IHittable {
   /**
    *
    * @param center Center position of the sphere

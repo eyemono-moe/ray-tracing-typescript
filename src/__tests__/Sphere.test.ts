@@ -1,5 +1,5 @@
 import Ray from "../Ray"
-import { Sphere } from "../Hittable/Sphere"
+import Sphere from "../Hittable/Sphere"
 import Vector from "../Vector"
 import BlankMaterial from "../Material/BlankMaterial"
 
