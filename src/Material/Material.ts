@@ -1,25 +1,7 @@
-import Color from "../Color"
-import { HitRecord } from "../Hittable/Hittable"
+import HitRecord from "../Hittable/HitRecord"
 import Ray from "../Ray"
+import Scatter from "./Scatter"
 
-export type Scatter =
-  | {
-      scattered: true
-      scatteredRay: Ray
-      attenuation: Color
-    }
-  | {
-      scattered: false
-    }
-
-export interface IMaterial {
+export default interface IMaterial {
   scatter: (ray: Ray, hitRecord: HitRecord) => Scatter
-}
-
-export class Material implements IMaterial {
-  scatter(_ray: Ray, _hitRecord: HitRecord): Scatter {
-    return {
-      scattered: false
-    }
-  }
 }

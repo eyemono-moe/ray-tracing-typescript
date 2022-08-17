@@ -1,10 +1,11 @@
 import Color from "../Color"
-import { HitRecord } from "../Hittable/Hittable"
+import HitRecord from "../Hittable/HitRecord"
 import Ray from "../Ray"
 import Vector from "../Vector"
-import { Material, Scatter } from "./Material"
+import Scatter from "./Scatter"
+import BlankMaterial from "./BlankMaterial"
 
-export default class Metal extends Material {
+export default class Metal extends BlankMaterial {
   constructor(public albedo: Color, public fuzz: number = 0) {
     super()
   }

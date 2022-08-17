@@ -1,11 +1,11 @@
-import HittableList from "../Hittable/HittableList"
+import { HittableList } from "../Hittable/HittableList"
 import Ray from "../Ray"
-import Sphere from "../Hittable/Sphere"
+import { Sphere } from "../Hittable/Sphere"
 import Vector from "../Vector"
-import { Material } from "../Material/Material"
+import BlankMaterial from "../Material/BlankMaterial"
 
 describe("HittableList", () => {
-  const s = new Sphere(new Vector(0, 0, 0), 1, new Material())
+  const s = new Sphere(new Vector(0, 0, 0), 1, new BlankMaterial())
   describe("constructor", () => {
     test("initializes with empty array", () => {
       const hl = new HittableList()
@@ -31,8 +31,8 @@ describe("HittableList", () => {
 
   describe("hit", () => {
     const hl = new HittableList()
-    const s1 = new Sphere(new Vector(0, 0, 20), 1, new Material())
-    const s2 = new Sphere(new Vector(0, 0, 10), 1, new Material())
+    const s1 = new Sphere(new Vector(0, 0, 20), 1, new BlankMaterial())
+    const s2 = new Sphere(new Vector(0, 0, 10), 1, new BlankMaterial())
     hl.add(s1)
     hl.add(s2)
     const r = new Ray(new Vector(0, 0, 0), new Vector(0, 0, 1))

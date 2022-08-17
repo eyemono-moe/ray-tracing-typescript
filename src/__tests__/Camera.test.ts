@@ -1,9 +1,9 @@
-import { Camera } from "../Camera"
+import PerspectiveCamera from "../Camera/PerspectiveCamera"
 import Vector from "../Vector"
 
 describe("Camera", () => {
   test("constructor", () => {
-    const c = new Camera(new Vector(0, 0, 0), 2, 1)
+    const c = new PerspectiveCamera(new Vector(0, 0, 0), 2, 1)
     expect(c.origin.e[0]).toBe(0)
     expect(c.origin.e[1]).toBe(0)
     expect(c.origin.e[2]).toBe(0)
@@ -19,7 +19,7 @@ describe("Camera", () => {
   })
 
   test("getRay", () => {
-    const c = new Camera(new Vector(0, 0, 0), 2, 1)
+    const c = new PerspectiveCamera(new Vector(0, 0, 0), 2, 1)
     const r1 = c.getRay(0, 0)
     expect(r1.origin.e[0]).toBe(0)
     expect(r1.origin.e[1]).toBe(0)

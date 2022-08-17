@@ -1,7 +1,8 @@
-import { HitRecord, IHittable } from "./Hittable"
+import IHittable from "./IHittable"
+import HitRecord from "./HitRecord"
 import Ray from "../Ray"
 
-export default class HittableList implements IHittable {
+export class HittableList implements IHittable {
   public objects: IHittable[] = []
   constructor(objects?: IHittable[]) {
     if (objects) {

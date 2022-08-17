@@ -1,9 +1,10 @@
-import { HitRecord, IHittable } from "./Hittable"
+import IHittable from "./IHittable"
+import HitRecord from "./HitRecord"
 import Ray from "../Ray"
 import Vector from "../Vector"
-import { IMaterial } from "../Material/Material"
+import IMaterial from "../Material/Material"
 
-export default class Sphere implements IHittable {
+export class Sphere implements IHittable {
   /**
    *
    * @param center Center position of the sphere

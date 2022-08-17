@@ -1,9 +1,9 @@
-import { Camera } from "./Camera"
+import PerspectiveCamera from "./Camera/PerspectiveCamera"
 import Color from "./Color"
-import { IHittable } from "./Hittable/Hittable"
-import HittableList from "./Hittable/HittableList"
+import IHittable from "./Hittable/IHittable"
+import { HittableList } from "./Hittable/HittableList"
 import Ray from "./Ray"
-import Sphere from "./Hittable/Sphere"
+import { Sphere } from "./Hittable/Sphere"
 import Vector from "./Vector"
 import Lambertian from "./Material/Lambertian"
 import Metal from "./Material/Metal"
@@ -45,7 +45,7 @@ const main = () => {
   world.add(new Sphere(new Vector(-1, 0, -1), 0.5, new Metal(new Color(0.8, 0.8, 0.8), 0.3)))
 
   // Camera
-  const camera = new Camera(new Vector(0, 0, 0), 2, aspectRatio)
+  const camera = new PerspectiveCamera(new Vector(0, 0, 0), 2, aspectRatio)
 
   // Render
   for (let j = imageHeight - 1; j >= 0; j--) {

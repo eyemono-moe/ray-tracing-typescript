@@ -1,19 +1,10 @@
-import { IMaterial } from "../Material/Material"
 import Ray from "../Ray"
-import Vector from "../Vector"
-
-export type HitRecord = {
-  point: Vector
-  normal: Vector
-  material: IMaterial
-  t: number
-  frontFace: boolean
-}
+import HitRecord from "./HitRecord"
 
 /**
  * A hittable object.
  */
-export interface IHittable {
+export default interface IHittable {
   /**
    * Hit test against a ray.
    * If the ray hits the object, returns the hit record.

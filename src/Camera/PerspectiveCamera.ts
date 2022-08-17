@@ -1,15 +1,8 @@
-import Ray from "./Ray"
-import Vector from "./Vector"
+import Ray from "../Ray"
+import Vector from "../Vector"
+import ICamera from "./ICamera"
 
-export interface ICamera {
-  origin: Vector
-  lowerLeftCorner: Vector
-  horizontal: Vector
-  vertical: Vector
-  getRay: (u: number, v: number) => Ray
-}
-
-export class Camera implements ICamera {
+export default class PerspectiveCamera implements ICamera {
   lowerLeftCorner: Vector
   horizontal: Vector
   vertical: Vector
