@@ -7,6 +7,7 @@ import Sphere from "./Hittable/Sphere"
 import Vector from "./Vector"
 import Lambertian from "./Material/Lambertian"
 import Metal from "./Material/Metal"
+import Dielectric from "./Material/Dielectric"
 
 const rayColor = (ray: Ray, world: IHittable, depth: number): Color => {
   // If we've exceeded the ray bounce limit, no more light is gathered.
@@ -39,10 +40,11 @@ const main = () => {
 
   // World
   const world = new HittableList()
-  world.add(new Sphere(new Vector(0, 0, -1), 0.5, new Lambertian(new Color(0.7, 0.3, 0.3))))
+  world.add(new Sphere(new Vector(0, 0, -1), 0.5, new Lambertian(new Color(0.1, 0.2, 0.5))))
   world.add(new Sphere(new Vector(0, -100.5, -1), 100, new Lambertian(new Color(0.8, 0.8, 0))))
-  world.add(new Sphere(new Vector(1, 0, -1), 0.5, new Metal(new Color(0.8, 0.6, 0.2), 1)))
-  world.add(new Sphere(new Vector(-1, 0, -1), 0.5, new Metal(new Color(0.8, 0.8, 0.8), 0.3)))
+  world.add(new Sphere(new Vector(1, 0, -1), 0.5, new Metal(new Color(0.8, 0.6, 0.2), 0.3)))
+  world.add(new Sphere(new Vector(-1, 0, -1), 0.5, new Dielectric(1.5)))
+  world.add(new Sphere(new Vector(-1, 0, -1), -0.45, new Dielectric(1.5)))
 
   // Camera
   const camera = new PerspectiveCamera(new Vector(0, 0, 0), 2, aspectRatio)

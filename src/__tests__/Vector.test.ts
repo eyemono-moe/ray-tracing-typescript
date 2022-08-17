@@ -113,4 +113,22 @@ describe("Vector", () => {
     expect(v3.e[1]).toBe(1)
     expect(v3.e[2]).toBe(1)
   })
+
+  describe("refract", () => {
+    const v1 = new Vector(1 / Math.sqrt(2), 0, -1 / Math.sqrt(2))
+    const v2 = new Vector(0, 0, 1)
+    test("refract", () => {
+      const v3 = Vector.refract(v1, v2, 1 / Math.sqrt(2))
+      expect(v3.e[0]).toBeCloseTo(1 / 2)
+      expect(v3.e[1]).toBe(0)
+      expect(v3.e[2]).toBeCloseTo(-Math.sqrt(3) / 2)
+    })
+
+    test("total reflection", () => {
+      const v3 = Vector.refract(v1, v2, 100)
+      expect(v3.e[0]).toBe(0)
+      expect(v3.e[1]).toBe(0)
+      expect(v3.e[2]).toBe(0)
+    })
+  })
 })
