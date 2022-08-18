@@ -28,31 +28,66 @@ const rayColor = (ray: Ray, world: IHittable, depth: number): Color => {
   return Color.add(Color.scale(new Color(1, 1, 1), 1 - t), Color.scale(new Color(0.5, 0.7, 1), t))
 }
 
+const hittableListRandomScene = () => {
+  const world = new HittableList()
+
+  const grounMaterial = new Lambertian(new Color(0.5, 0.5, 0.5))
+  world.add(new Sphere(new Vector(0, -1000, 0), 1000, grounMaterial))
+
+  for (let a = -11; a < 11; a++) {
+    for (let b = -11; b < 11; b++) {
+      const chooseMat = Math.random()
+      const center = new Vector(a + 0.9 * Math.random(), 0.2, b + 0.9 * Math.random())
+      if (Vector.mag(Vector.sub(center, new Vector(4, 0.2, 0))) > 0.9) {
+        if (chooseMat < 0.8) {
+          const albedo = new Color(
+            Math.random() * Math.random(),
+            Math.random() * Math.random(),
+            Math.random() * Math.random()
+          )
+          world.add(new Sphere(center, 0.2, new Lambertian(albedo)))
+        } else if (chooseMat < 0.95) {
+          const albedo = new Color(0.5 * Math.random() + 0.5, 0.5 * Math.random() + 0.5, 0.5 * Math.random() + 0.5)
+          world.add(new Sphere(center, 0.2, new Metal(albedo, 0.5 * Math.random())))
+        } else {
+          world.add(new Sphere(center, 0.2, new Dielectric(1.5)))
+        }
+      }
+    }
+  }
+
+  const material1 = new Dielectric(1.5)
+  world.add(new Sphere(new Vector(0, 1, 0), 1.0, material1))
+
+  const material2 = new Lambertian(new Color(0.4, 0.2, 0.1))
+  world.add(new Sphere(new Vector(-4, 1, 0), 1.0, material2))
+
+  const material3 = new Metal(new Color(0.7, 0.6, 0.5), 0.0)
+  world.add(new Sphere(new Vector(4, 1, 0), 1.0, material3))
+
+  return world
+}
+
 const main = () => {
   // Image
-  const aspectRatio = 16 / 9
-  const imageWidth = 400
+  const aspectRatio = 3 / 2
+  const imageWidth = 300
   const imageHeight = Math.floor(imageWidth / aspectRatio)
   const colorDepth = 4
   const buffer = new Uint8Array(imageWidth * imageHeight * colorDepth)
-  const samplePerPixel = 100
+  const samplePerPixel = 10
   const maxDepth = 50
 
   // World
-  const world = new HittableList()
-  world.add(new Sphere(new Vector(0, 0, -1), 0.5, new Lambertian(new Color(0.1, 0.2, 0.5))))
-  world.add(new Sphere(new Vector(0, -100.5, -1), 100, new Lambertian(new Color(0.8, 0.8, 0))))
-  world.add(new Sphere(new Vector(1, 0, -1), 0.5, new Metal(new Color(0.8, 0.6, 0.2), 0.3)))
-  world.add(new Sphere(new Vector(-1, 0, -1), 0.5, new Dielectric(1.5)))
-  world.add(new Sphere(new Vector(-1, 0, -1), -0.45, new Dielectric(1.5)))
+  const world = hittableListRandomScene()
 
   // Camera
-  const lookFrom = new Vector(3, 3, 2)
-  const lookAt = new Vector(0, 0, -1)
+  const lookFrom = new Vector(13, 2, 3)
+  const lookAt = new Vector(0, 0, 0)
   const vUp = new Vector(0, 1, 0)
-  const distToFocus = Vector.mag(Vector.sub(lookFrom, lookAt))
-  const aperture = 2
-  const camera = new PerspectiveCamera(lookFrom, lookAt, vUp, 90, aspectRatio, aperture, distToFocus)
+  const distToFocus = 10
+  const aperture = 0.1
+  const camera = new PerspectiveCamera(lookFrom, lookAt, vUp, 20, aspectRatio, aperture, distToFocus)
 
   // Render
   for (let j = imageHeight - 1; j >= 0; j--) {
