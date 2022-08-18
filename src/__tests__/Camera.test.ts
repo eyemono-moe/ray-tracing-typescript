@@ -3,7 +3,7 @@ import Vector from "../Vector"
 
 describe("Camera", () => {
   test("constructor", () => {
-    const c = new PerspectiveCamera(new Vector(0, 0, 0), new Vector(0, 0, -1), new Vector(0, 1, 0), 90, 1)
+    const c = new PerspectiveCamera(new Vector(0, 0, 0), new Vector(0, 0, -1), new Vector(0, 1, 0), 90, 1, 0, 1)
     expect(c.origin.e[0]).toBeCloseTo(0)
     expect(c.origin.e[1]).toBeCloseTo(0)
     expect(c.origin.e[2]).toBeCloseTo(0)
@@ -19,7 +19,7 @@ describe("Camera", () => {
   })
 
   test("getRay", () => {
-    const c = new PerspectiveCamera(new Vector(0, 0, 0), new Vector(0, 0, -1), new Vector(0, 1, 0), 90, 1)
+    const c = new PerspectiveCamera(new Vector(0, 0, 0), new Vector(0, 0, -1), new Vector(0, 1, 0), 90, 1, 0, 1)
     const r1 = c.getRay(0, 0)
     expect(r1.origin.e[0]).toBeCloseTo(0)
     expect(r1.origin.e[1]).toBeCloseTo(0)

@@ -104,6 +104,17 @@ export default class Vector {
   }
 
   /**
+   * Returns the vector in the circle.
+   *
+   * @returns Random vector in the unit circle
+   */
+  static randomInUnitDisk(): Vector {
+    const theta = Math.random() * 2 * Math.PI
+    const r = Math.sqrt(Math.random())
+    return new Vector(r * Math.cos(theta), r * Math.sin(theta), 0)
+  }
+
+  /**
    * Returns the reflected vector across the given normal.
    *
    * @param v Vector to reflect

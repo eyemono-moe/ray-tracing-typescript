@@ -7,30 +7,54 @@ export default class PerspectiveCamera implements ICamera {
   lowerLeftCorner: Vector
   horizontal: Vector
   vertical: Vector
-  constructor(lookFrom: Vector, lookAt: Vector, vUp: Vector, vFov: number, aspectRatio: number) {
+
+  u: Vector
+  v: Vector
+  w: Vector
+  lensRadius: number
+  constructor(
+    lookFrom: Vector,
+    lookAt: Vector,
+    vUp: Vector,
+    vFov: number,
+    aspectRatio: number,
+    aperture: number,
+    focusDist: number
+  ) {
     const theta = (vFov * Math.PI) / 180
     const halfHeight = Math.tan(theta / 2)
     const viewportHeight = 2.0 * halfHeight
     const viewportWidth = aspectRatio * viewportHeight
 
-    const w = Vector.normalize(Vector.sub(lookFrom, lookAt))
-    const u = Vector.normalize(Vector.cross(vUp, w))
-    const v = Vector.cross(w, u)
+    this.w = Vector.normalize(Vector.sub(lookFrom, lookAt))
+    this.u = Vector.normalize(Vector.cross(vUp, this.w))
+    this.v = Vector.cross(this.w, this.u)
 
     this.origin = lookFrom
-    this.horizontal = Vector.scale(u, viewportWidth)
-    this.vertical = Vector.scale(v, viewportHeight)
+    this.horizontal = Vector.scale(this.u, viewportWidth)
+    this.vertical = Vector.scale(this.v, viewportHeight)
     this.lowerLeftCorner = Vector.sub(
       Vector.sub(Vector.sub(this.origin, Vector.div(this.horizontal, 2)), Vector.div(this.vertical, 2)),
-      w
+      Vector.scale(this.w, focusDist)
     )
+
+    this.lensRadius = aperture / 2
   }
-  getRay(u: number, v: number): Ray {
+  getRay(s: number, t: number): Ray {
+    const rd = Vector.scale(Vector.randomInUnitDisk(), this.lensRadius)
+    const offset = Vector.add(Vector.scale(this.u, rd.e[0]), Vector.scale(this.v, rd.e[1]))
+
     return new Ray(
-      this.origin,
+      Vector.add(this.origin, offset),
       Vector.sub(
-        Vector.add(Vector.add(this.lowerLeftCorner, Vector.scale(this.horizontal, u)), Vector.scale(this.vertical, v)),
-        this.origin
+        Vector.sub(
+          Vector.add(
+            Vector.add(this.lowerLeftCorner, Vector.scale(this.horizontal, s)),
+            Vector.scale(this.vertical, t)
+          ),
+          this.origin
+        ),
+        offset
       )
     )
   }

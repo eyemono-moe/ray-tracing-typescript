@@ -105,6 +105,11 @@ describe("Vector", () => {
     expect(Vector.mag(v1)).toBeCloseTo(1)
   })
 
+  test("randomInUnitCircle", () => {
+    const v1 = Vector.randomInUnitDisk()
+    expect(Vector.mag(v1)).toBeLessThanOrEqual(1)
+  })
+
   test("reflect", () => {
     const v1 = new Vector(1, -1, 1)
     const v2 = new Vector(0, 1, 0)
