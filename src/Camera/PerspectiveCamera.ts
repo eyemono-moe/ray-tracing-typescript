@@ -31,8 +31,8 @@ export default class PerspectiveCamera implements ICamera {
     this.v = Vector.cross(this.w, this.u)
 
     this.origin = lookFrom
-    this.horizontal = Vector.scale(this.u, viewportWidth)
-    this.vertical = Vector.scale(this.v, viewportHeight)
+    this.horizontal = Vector.scale(this.u, viewportWidth * focusDist)
+    this.vertical = Vector.scale(this.v, viewportHeight * focusDist)
     this.lowerLeftCorner = Vector.sub(
       Vector.sub(Vector.sub(this.origin, Vector.div(this.horizontal, 2)), Vector.div(this.vertical, 2)),
       Vector.scale(this.w, focusDist)
