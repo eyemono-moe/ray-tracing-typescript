@@ -135,11 +135,11 @@ export default class Vector {
    */
   static refract(uv: Vector, n: Vector, niOverNt: number): Vector {
     const dt = Vector.dot(uv, n)
-    const descriminant = 1 - niOverNt * niOverNt * (1 - dt * dt)
-    if (descriminant > 0) {
+    const discriminant = 1 - niOverNt * niOverNt * (1 - dt * dt)
+    if (discriminant > 0) {
       return Vector.sub(
         Vector.scale(Vector.sub(uv, Vector.scale(n, dt)), niOverNt),
-        Vector.scale(n, Math.sqrt(descriminant))
+        Vector.scale(n, Math.sqrt(discriminant))
       )
     }
     return new Vector(0, 0, 0)
