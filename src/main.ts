@@ -47,7 +47,7 @@ const main = () => {
   world.add(new Sphere(new Vector(-1, 0, -1), -0.45, new Dielectric(1.5)))
 
   // Camera
-  const camera = new PerspectiveCamera(new Vector(0, 0, 0), 2, aspectRatio)
+  const camera = new PerspectiveCamera(new Vector(-2, 2, 1), new Vector(0, 0, -1), new Vector(0, 1, 0), 20, aspectRatio)
 
   // Render
   for (let j = imageHeight - 1; j >= 0; j--) {
